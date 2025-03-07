@@ -7,8 +7,8 @@
 <br>
 <b> {{name}}</b>
     <ol>
-        {% for ingredient in ingredients%}
-        <li>{{ingredient.name}} - {{ingredient.quantity}}</li>
+        {% for ingredient in recipe.ingredients.all%}
+        <li>{{ingredient.Ingredient.name}} - {{ingredient.Quantity}}</li>
         {% endfor %}
     </ol>
     <a href="/recipes/list/">Back to Homepage</a>
