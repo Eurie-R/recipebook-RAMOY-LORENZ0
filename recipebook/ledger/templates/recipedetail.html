@@ -5,11 +5,11 @@
 {% block content %}
 <h1>Recipe Book</h1>
 <br>
-<b> {{name}}</b>
+<b> {{recipe.name}} by {{recipe.Author}} </b>
+
     <ol>
         {% for ingredient in recipe.ingredients.all%}
         <li>{{ingredient.Ingredient.name}} - {{ingredient.Quantity}}</li>
         {% endfor %}
     </ol>
-    <a href="/recipes/list/">Back to Homepage</a>
 {% endblock %}
