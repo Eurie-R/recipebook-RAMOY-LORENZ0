@@ -15,8 +15,6 @@ class Ingredient(models.Model):
 
     def __str__(self):
         return self.name 
-
-
 class Recipe(models.Model):
     name = models.CharField(max_length=50)
     Author = models.ForeignKey(Profile, on_delete=models.CASCADE)
@@ -25,8 +23,6 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.name
-    
-
 
 class RecipeIngredient(models.Model):
     Quantity = models.CharField(max_length=50)
