@@ -2,8 +2,9 @@ from django.shortcuts import render , redirect
 from . import models
 from django.views.generic.detail import DetailView
 from django.contrib.auth.decorators import login_required
-from .forms import recipe_form, ingredient_form, recipe_ingredientform, image_form
+from .forms import RecipeForm, IngredientForm, RecipeIngredientForm, ImageForm
 
+@login_required
 def recipe_detail(request, pk):
     recipe = models.Recipe.objects.get(pk=pk)
     return render(request, 'recipe_detail.html', {
@@ -16,14 +17,12 @@ class RecipeDetailView(DetailView):
 @login_required
 def recipe_list(request):
     if request.method == 'POST':
-        #create the form 
-        form = recipe_form(request.POST, request.FILES)
-        #check if valid 
+        form = RecipeForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('recipe_list')
     
-    form = recipe_form()
+    form = RecipeForm()
     recipes = models.Recipe.objects.all()
     recipeIngredients = models.Recipe.objects.all()
 
@@ -34,25 +33,26 @@ def recipe_list(request):
 
     return render(request, 'recipelist.html', {'recipes': recipes, 'recipe_form':form})
 
+@login_required
 def recipe_add(request):
      if request.method == 'POST':
         #create the form 
-        Recipeform = recipe_form(request.POST, request.FILES)
-        IngredientForm = ingredient_form(request.POST)
-        RecipeIngredientForm = recipe_ingredientform(request.POST)
-        if Recipeform.is_valid():
-            Recipeform.save()
+        recipeForm = RecipeForm(request.POST, request.FILES)
+        ingredientForm = IngredientForm(request.POST)
+        recipeIngredientForm = RecipeIngredientForm(request.POST)
+        if recipeForm.is_valid():
+            recipeForm.save()
             return redirect('ledger:recipe_list')
-        elif IngredientForm.is_valid():
-            IngredientForm.save()
+        elif ingredientForm.is_valid():
+            ingredientForm.save()
             return redirect('ledger:recipe_list')
-        elif RecipeIngredientForm.is_valid():
-            RecipeIngredientForm.save()
+        elif recipeIngredientForm.is_valid():
+            recipeIngredientForm.save()
             return redirect('ledger:recipe_list')
      else:
-        RecipeForm = recipe_form()
-        IngredientForm = ingredient_form()
-        RecipeIngredientForm = recipe_ingredientform()
+        recipeForm = RecipeForm()
+        ingredientForm = IngredientForm()
+        recipeIngredientForm = RecipeIngredientForm()
         recipeIngredients = models.Recipe.objects.all()
 
         ctx = { "recipeIngredients": recipeIngredients }
@@ -60,17 +60,18 @@ def recipe_add(request):
         print(f"request type: {request.method}")
         print(f"ctx: {ctx}")
 
-        return render(request, 'addRecipe.html', {"recipe_form": RecipeForm, "ingredient_form": IngredientForm, "recipe_ingredient_form": RecipeIngredientForm})
-     
+        return render(request, 'addRecipe.html', {"recipe_form": recipeForm, "ingredient_form": ingredientForm, "recipe_ingredient_form": recipeIngredientForm})
+
+@login_required 
 def add_image(request, pk):
     if request.method == 'POST':
         #create the form 
-        imgform = image_form(request.POST, request.FILES)
+        imgform = ImageForm(request.POST, request.FILES)
         if imgform.is_valid():
             imgform.save()
-            return redirect('ledger:recipe_detail')
+            return redirect('ledger:recipe_list')
     else:
-        imgForm = image_form()
+        imgForm = ImageForm()
         ctx = {'image_form':imgForm }
 
         return render(request, 'addImage.html',ctx)
