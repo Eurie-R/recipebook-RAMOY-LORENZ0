@@ -20,6 +20,7 @@ class Recipe(models.Model):
     Author = models.ForeignKey(Profile, on_delete=models.CASCADE)
     CreatedOn = models.DateTimeField(auto_now_add=True)
     UpdatedOn = models.DateTimeField(auto_now=True)
+    
 
     def __str__(self):
         return self.name
@@ -28,4 +29,9 @@ class RecipeIngredient(models.Model):
     Quantity = models.CharField(max_length=50)
     Ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, related_name= 'recipe')
     Recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='ingredients')
+
+class RecipeImage(models.Model):
+    Image = models.ImageField(upload_to='images/', null=True)
+    Description = models.CharField(max_length=255)
+    Recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='image')
 
