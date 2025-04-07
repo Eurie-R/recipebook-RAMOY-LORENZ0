@@ -6,10 +6,18 @@
 <h1>Recipe Book</h1>
 <br>
 <b> {{recipe.name}} by {{recipe.Author}} </b>
+{% for img in recipe.image.all %}
+<div>
+    <img src="{{ img.Image.url }}" alt="{{ img.Description }}" style="max-width: 300px;">
+    <p>{{ img.Description }}</p>
+</div>
+{% endfor %}
 
     <ol>
         {% for ingredient in recipe.ingredients.all%}
         <li>{{ingredient.Ingredient.name}} - {{ingredient.Quantity}}</li>
         {% endfor %}
     </ol>
+
+<a href="{%  url 'ledger:image_add' recipe.pk %}"> add image</a>
 {% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{%block title %}Recipe Book {% endblock %}
+
+{% block content %}
+
+<h1>Add Recipes and Ingredients</h1>
+
+<b>Add Recipe</b>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ recipe_form.as_p }}
+    <input type="submit" value="Submit">
+</form>
+<br>
+<b>Add Ingredient</b>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ ingredient_form.as_p }}
+    <input type="submit" value="Submit">
+</form>
+<br>
+<br>
+<b>Add Ingredients to Recipe</b>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ recipe_ingredient_form.as_p }}
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock %}

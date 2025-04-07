@@ -10,10 +10,8 @@
                  <a href="{% url 'ledger:recipe_detail' recipe.pk %}">{{ recipe.name}}</a>  
             </li>
         {% endfor %}
-        <form method="POST" action="{% url 'logout' %}">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Logout</button>
-        </form>
+        <br>
+        <br>
+            <a href="{% url 'ledger:recipe_add' %}"> Add recipe </a>
     </ul>
 {% endblock %}
